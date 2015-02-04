@@ -1,7 +1,5 @@
 package com.datastax.poc;
 
-import java.util.Set;
-
 
 /**
  * Created by patrick on 03/02/15.
@@ -16,10 +14,6 @@ public class Settings {
             s_settings = new Settings();
         }
         return s_settings;
-    }
-
-    public String getKeyspace() {
-        return "lotsys";
     }
 
     public String[] getContactPoints() {

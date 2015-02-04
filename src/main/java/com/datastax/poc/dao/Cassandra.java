@@ -25,7 +25,7 @@ public class Cassandra {
                     .setFetchSize(100);
 
             SocketOptions socketOptions = new SocketOptions()
-                    .setReadTimeoutMillis(105000);
+                    .setReadTimeoutMillis(10500);
 
 
             s_cluster = Cluster.builder()

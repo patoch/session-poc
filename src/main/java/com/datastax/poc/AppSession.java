@@ -1,6 +1,7 @@
 package com.datastax.poc;
 
 import com.datastax.driver.core.utils.UUIDs;
+import com.datastax.poc.util.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

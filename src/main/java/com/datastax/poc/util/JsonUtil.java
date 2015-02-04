@@ -1,4 +1,4 @@
-package com.datastax.poc;
+package com.datastax.poc.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

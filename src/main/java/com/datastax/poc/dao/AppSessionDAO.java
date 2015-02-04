@@ -63,6 +63,7 @@ public class AppSessionDAO {
     public void setAppSession(AppSession appSession) {
         BoundStatement bstmt = insertPstmt.bind(appSession.getId(), new Date(), appSession.getChangeJson());
         Cassandra.getSession().execute(bstmt);
+        appSession.mergeChanges();
     }
 
 }

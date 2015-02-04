@@ -1,5 +1,7 @@
 import com.datastax.poc.AppSession;
 import com.datastax.poc.dao.AppSessionDAO;
+import com.datastax.poc.dao.Cassandra;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.util.UUID;
@@ -30,6 +32,7 @@ public class AppSessionDAOTest {
         appSession = dao.getAppSession(sessionId);
 
         assertEquals(SOME_JSON, appSession.toString());
+        assertEquals("{}", appSession.getChangeJson());
     }
 
     @Test
@@ -39,7 +42,6 @@ public class AppSessionDAOTest {
 
         appSession.mergeJson(SOME_JSON);
         dao.setAppSession(appSession);
-        appSession.mergeChanges();
 
         appSession.select("user")
                 .addString("City", "Paris");
@@ -48,6 +50,12 @@ public class AppSessionDAOTest {
         appSession = dao.getAppSession(sessionId);
 
         assertEquals("{\"session_id\":\"1234\",\"user\":{\"name\":\"Patrick\",\"age\":40,\"a_number\":992,\"last_name\":\"Guillebert\",\"City\":\"Paris\"},\"created_on\":\"02/02/2015\",\"history\":{\"event\":{\"type\":\"creation\"}}}", appSession.toString());
+    }
+
+    @AfterClass
+    public static void shutdown() {
+        Cassandra.getSession().close();
+        Cassandra.getCluster().close();
     }
 
 

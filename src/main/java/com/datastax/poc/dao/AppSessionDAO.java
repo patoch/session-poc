@@ -15,6 +15,7 @@ public class AppSessionDAO {
     private static AppSessionDAO onlyInstance;
     private PreparedStatement selectPstmt;
     private PreparedStatement insertPstmt;
+    private PreparedStatement deletePstmt;
 
     public static synchronized AppSessionDAO getInstance() {
         if (onlyInstance == null) {
@@ -43,6 +44,9 @@ public class AppSessionDAO {
 
         cql = "INSERT INTO my_app.sessions(id, update_ts, data) VALUES (?, ?, ?);";
         insertPstmt = Cassandra.getSession().prepare(cql);
+
+        cql = "DELETE FROM my_app.sessions WHERE id = ?;";
+        deletePstmt = Cassandra.getSession().prepare(cql);
     }
 
 
@@ -50,6 +54,9 @@ public class AppSessionDAO {
         AppSession appSession = new AppSession(id);
         BoundStatement bstmt = selectPstmt.bind(id);
         ResultSet rs = Cassandra.getSession().execute(bstmt);
+        if (rs.isExhausted()) {
+            return null;
+        }
         String jsonStr;
         for (Row row: rs.all()) {
             jsonStr = row.getString("data");
@@ -64,6 +71,11 @@ public class AppSessionDAO {
         BoundStatement bstmt = insertPstmt.bind(appSession.getId(), new Date(), appSession.getChangeJson());
         Cassandra.getSession().execute(bstmt);
         appSession.mergeChanges();
+    }
+
+    public void deleteAppSession(UUID id) {
+        BoundStatement bstmt = deletePstmt.bind(id);
+        Cassandra.getSession().execute(bstmt);
     }
 
 }

@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import java.util.UUID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 
 /**
@@ -50,6 +51,19 @@ public class AppSessionDAOTest {
         appSession = dao.getAppSession(sessionId);
 
         assertEquals("{\"session_id\":\"1234\",\"user\":{\"name\":\"Patrick\",\"age\":40,\"a_number\":992,\"last_name\":\"Guillebert\",\"City\":\"Paris\"},\"created_on\":\"02/02/2015\",\"history\":{\"event\":{\"type\":\"creation\"}}}", appSession.toString());
+    }
+
+    @Test
+    public void setAndDeleteAppSession() {
+        AppSession appSession = new AppSession();
+        UUID sessionId = appSession.getId();
+
+        appSession.mergeJson(SOME_JSON);
+        dao.setAppSession(appSession);
+
+        dao.deleteAppSession(sessionId);
+
+        assertNull(dao.getAppSession(sessionId));
     }
 
     @AfterClass

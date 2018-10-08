@@ -2,7 +2,7 @@
 
 PoC for a json session manager based on Casssandra 2.0.
 Rather than storing all session data everytime - only changes are stored as a time serie.
-At read, all changes are merged to get the last state.
+At read, all changes are merged to get the latest state.
 
 
 Sample Code

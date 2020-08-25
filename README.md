@@ -1,14 +1,8 @@
-#PoC Session management with Cassandra.
+
+# Session management with Cassandra.
 
 PoC for a json session manager based on Casssandra 2.0.
-Rather than storing all session data everytime - only changes are stored as a time serie.
-At read, all changes are merged to get the latest state.
+Changed to sessions are written by increment as a time serie.
+On read, session changes are merged to build the latest state.
+Session increments can be compacted periodically.
 
-
-Sample Code
-```
-Please have a look at the tests :
-
-* AppSessionTest: to see how to add attributes to the session.
-* AppSessionDAOTest: to see how to save/load session.
-```
